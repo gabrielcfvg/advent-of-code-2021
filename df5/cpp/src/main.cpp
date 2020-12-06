@@ -110,59 +110,6 @@ uint calc1(const char* const str)
     return (row * 8) + collum;
 }
 
-std::tuple<uint, uint, uint> calc2(const char* const str)
-{
-    uint row, collum;
-
-    uint start, end;
-    char ch;
-
-    start = 0;
-    end = 127;
-    for (uint i = 0; i < 6; i++)
-    {
-        ch = *(str+i);
-
-        if (ch == 'F')
-        {
-            end = ((end + start) >> 1) - 1;
-        }
-        if (ch == 'B')
-        {
-            start = ((end + start) >> 1) + 1;
-        }
-    }
-    if (*(str+6) == 'B')
-        start++;
-    row = start;
-
-    start = 0;
-    end = 7;
-    for (uint i = 7; i < 9; i++)
-    {
-        ch = *(str+i);
-
-        if (ch == 'L')
-        {
-            end = ((end + start) >> 1) - 1;
-        }
-        if (ch == 'R')
-        {
-            start = ((end + start) >> 1) + 1;
-        }
-    }
-    if (*(str+9) == 'R')
-    {
-        start++;
-    }
-    collum = start;
-
-    // std::cout << "row: " << row << std::endl;
-    // std::cout << "collum: " << collum << std::endl;
-    // std::cout << "resultado " << str << ": " << (row * 8) + collum << std::endl;
-    return std::make_tuple((row * 8) + collum, row, collum);
-}
-
 void parte1(const char* const input_path)
 {
     std::vector<char*> data = read_input(input_path);
@@ -189,8 +136,8 @@ void parte2(const char* const input_path)
 
     for (auto& str: data)
     {
-        std::tuple res = calc2(str);
-        ids.push_back(std::get<0>(res));
+        uint res = calc1(str);
+        ids.push_back(res);
     }
 
     std::sort(ids.begin(), ids.end());
